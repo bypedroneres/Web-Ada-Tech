@@ -6,6 +6,8 @@ body {
     padding: 0;
 }
 
+/* NAVBAR  */
+
 header {
     text-align: center;
     padding: 20px;
@@ -63,4 +65,56 @@ header {
     height: 244px; 
     margin: 0 auto;
     
+}
+
+/* CTA BUTTON */
+
+.button-container {
+    width: 230px;
+    height: 60px;
+    border-radius: 36px;
+    border: 1px solid #6D6D6D;
+    background: #D9D9D9;
+    text-align: left;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: 0 auto;
+    z-index: 1000;
+    margin-top: 10px;
+    position: relative;
+    padding-right: 20px;
+    margin-bottom: 60px;
+}
+.button-container:hover .circle-container {
+    background: #585858;
+}
+
+.circle-container {
+    background: #6D6D6D;
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: absolute;
+    top: 50%;
+    right: 4px;
+    transform: translateY(-50%);
+}
+
+.arrow {
+    color: #D9D9D9;
+    font-size: 20px;
+    font-family: 'Inter', sans-serif;
+}
+
+
+/* GALLERY PAGE */
+
+.gallery-page {
+    background-color:#202020;
+    width: auto;
+    height: 980px;
 }
