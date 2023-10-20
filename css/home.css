@@ -115,6 +115,11 @@ header {
 
 .gallery-page {
     background-color:#202020;
-    width: auto;
-    height: 980px;
+    width: 100%;
+    height: 100vh;
+}
+
+a {
+    text-decoration: none;
+    color: inherit; 
 }

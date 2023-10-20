@@ -51,81 +51,131 @@ header {
     cursor: pointer;
 }
 
+/* REGISTER */
 
-/* LOGIN */
-
-.content-container {
-    padding-bottom: 0;
+.register-container {
     display: flex;
     justify-content: center;
     align-items: center;
 }
 
-
-.login-card {
+.register-card {
     width: 438px;
     height: 585px;
-    margin: 0 auto; 
-    border-radius: 35px;
-    background: #D9D9D9;
-    color: #6D6D6D;
     display: flex;
     flex-direction: column;
-    align-items: center;
     justify-content: center;
-    border: 1px solid #6D6D6D;
+    align-items: center;
+    border-radius: 35px;
+    background: #D9D9D9;
+    text-align: center;
+    color: #6D6D6D;
+    border: 1px solid #6d6d6d;
     padding: 20px;
-    margin-top: 150px;
-    position: relative;
+    margin-top: 159px;
 }
 
-.login-content {
+.register-content {
     padding: 10px;
     display: flex;
     flex-direction: column;
     align-items: center;
-    width: 100%;
+    margin-bottom: 10px;
 }
 
-.login-content h2 {
+.register-content h2 {
     font-size: 24px;
-    margin-bottom: 50px;
+    margin-bottom: 20px;
     margin-top: 50px;
 }
 
-.login-content input {
+.register-content input {
     width: 338px;
     height: 46px;
     border-radius: 35px;
     background-color: #D9D9D9;
     color: #6D6D6D;
-    margin: 10px 0;
+    margin: 5px 0;
     border: 1px solid #6D6D6D;
     padding-left: 30px;
 }
 
 
+.custom-control-input {
+    display: none;
+}
+
+.custom-control-label {
+    position: relative;
+    margin-top: 10px;
+    padding-left: 30px;
+    cursor: pointer;
+    display: inline-block;
+    line-height: 24px;
+}
+
+.custom-control-label::before {
+    content: "";
+    position: absolute;
+    left: 0;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 20px;
+    height: 20px;
+    border-radius: 4px;
+    background-color: transparent;
+    transition: background-color 0.3s;
+}
+
+.custom-control-input:checked+.custom-control-label::before {
+    background-color: #ffffff;
+}
+
+.custom-control-input:checked+.custom-control-label::after {
+    content: "";
+    position: absolute;
+    align-items: center;
+    left: 7px;
+    top: 12px;
+    width: 6px;
+    height: 10px;
+    border: solid #000000;
+    border-width: 0 2px 2px 0;
+    transform: rotate(45deg);
+}
+
+.register-content a {
+    color: #ffffff;
+    text-decoration: underline;
+}
+
+.register-content a:hover {
+    color: #6D6D6D;
+    text-decoration: underline;
+}
+
 .button-group {
     display: flex;
     flex-direction: column;
     align-items: center;
-    margin-top: 180px;
+    margin-top: 5px;
     width: 100%;
 }
 
 .button-main,
-.create-account-button a {
+.account-button {
     width: 338px;
     height: 46px;
     border-radius: 35px;
     cursor: pointer;
     font-size: 16px;
-    color: #ffffff;
+    margin: 5px 0;
     border: none;
+    color: #d9d9d9;
     background-color: #6D6D6D;
 }
 
-.create-account-button {
+.account-button {
     background-color: transparent;
     color: #6D6D6D;
     margin-top: 10px;
