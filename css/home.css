@@ -114,9 +114,24 @@ header {
 /* GALLERY PAGE */
 
 .gallery-page {
-    background-color:#202020;
+    background-color: #202020;
     width: 100%;
-    height: 100vh;
+    padding: 50px; 
+}
+
+.gallery-container {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+    gap: 20px;
+    justify-items: center;
+}
+
+.gallery-container img {
+    max-width: 100%;
+    height: auto;
+    border: 2px solid #ffffff;
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
 }
 
 a {
