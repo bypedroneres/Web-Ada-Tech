@@ -12,32 +12,48 @@ import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import java.util.Collection;
 import java.util.List;
 
+@Entity
 @Table(name = "users")
-@Entity(name = "users")
 @Getter
 @NoArgsConstructor
 @AllArgsConstructor
 @EqualsAndHashCode(of = "id")
 public class User {
-  @Id
-  @GeneratedValue(strategy = GenerationType.UUID)
-  private String id;
-  private String username;
-  private String email;
-  private String password;
-  private UserRole role;
+    @Id
+    @GeneratedValue(strategy = GenerationType.UUID)
+    private String id;
 
-  public User(String username, String email, String password, UserRole role){
+    @Column(nullable = false)
+    private String username;
+
+    @Column(nullable = false)
+    private String email;
+
+    @Column(nullable = false)
+    private String password;
+
+    @Column(nullable = false)
+    @Enumerated(EnumType.STRING)
+    private UserRole role;
+
+    public User(String username, String email, String password, UserRole role){
         this.username = username;
         this.email = email;
         this.password = password;
         this.role = role;
     }
 
-  public Collection<? extends GrantedAuthority> getAuthorities() {
-    if (this.role == UserRole.ADMIN)
-      return List.of(new SimpleGrantedAuthority("ROLE_ADMIN"), new SimpleGrantedAuthority("ROLE_USER"));
-    else
-      return List.of(new SimpleGrantedAuthority("ROLE_USER"));
-  }
+    public User(User user){
+      this.username = user.getUsername();
+      this.email = user.getEmail();
+      this.password = user.getEmail();
+      this.role = user.getRole();
+    }
+
+    public Collection<? extends GrantedAuthority> getAuthorities() {
+        if (this.role == UserRole.ADMIN)
+          return List.of(new SimpleGrantedAuthority("ROLE_ADMIN"), new SimpleGrantedAuthority("ROLE_USER"));
+        else
+          return List.of(new SimpleGrantedAuthority("ROLE_USER"));
+    }
 }
