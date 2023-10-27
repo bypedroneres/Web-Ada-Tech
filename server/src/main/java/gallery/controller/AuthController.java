@@ -4,8 +4,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -14,6 +15,7 @@ import gallery.domain.dto.user.*;
 import gallery.domain.entities.User;
 import gallery.repositories.UserRepository;
 import gallery.security.JwtTokenProvider;
+import jakarta.validation.Valid;
 
 @RestController
 @RequestMapping("/api/v1/auth")
@@ -26,18 +28,19 @@ public class AuthController {
     private JwtTokenProvider jwtTokenProvider;
 
     @PostMapping("/signin")
-    public ResponseEntity<SignInResponseDTO> signin(@RequestBody @Validated SignInDTO data){
-        var usernamePassword = new UsernamePasswordAuthenticationToken(data.email(), data.password());
-        var auth = this.authenticationManager.authenticate(usernamePassword);
+    public ResponseEntity<SignInResponseDTO> signin(@RequestBody @Valid SignInDTO data) {
+        Authentication authentication = authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(
+                data.email(), data.password()));
 
-        var token = jwtTokenProvider.generateToken((User) auth.getPrincipal());
+        String token = jwtTokenProvider.generateToken((User) authentication.getPrincipal());
 
         return ResponseEntity.ok(new SignInResponseDTO(token));
     }
 
     @PostMapping("/signup")
-    public ResponseEntity<User> signup(@RequestBody @Validated SignUpDTO data){
-        if(this.userRepository.findByEmail(data.email()) != null) return ResponseEntity.badRequest().build();
+    public ResponseEntity<User> signup(@RequestBody @Valid SignUpDTO data) {
+        if (this.userRepository.findByEmail(data.email()) != null)
+            return ResponseEntity.badRequest().build();
 
         String encryptedPassword = new BCryptPasswordEncoder().encode(data.password());
         User newUser = new User(data.username(), data.email(), encryptedPassword, data.role());

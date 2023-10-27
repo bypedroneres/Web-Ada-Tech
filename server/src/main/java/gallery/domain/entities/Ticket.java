@@ -2,7 +2,6 @@ package gallery.domain.entities;
 
 import gallery.domain.dto.ticket.TicketPostDTO;
 import gallery.domain.dto.ticket.TicketPutDTO;
-import jakarta.annotation.Nullable;
 import jakarta.persistence.*;
 import lombok.Data;
 import lombok.NoArgsConstructor;

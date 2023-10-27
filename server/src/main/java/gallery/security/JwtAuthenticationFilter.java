@@ -20,16 +20,17 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
     @Autowired
     JwtTokenProvider jwtTokenProvider;
     @Autowired
-    UserRepository customerRepository;
+    UserRepository userRepository;
 
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
         String token = this.recoverToken(request);
         if(token != null){
             String email = jwtTokenProvider.validateToken(token);
-            UserDetails customer = customerRepository.findByEmail(email);
 
-            UsernamePasswordAuthenticationToken authentication = new UsernamePasswordAuthenticationToken(customer, null, customer.getAuthorities());
+            UserDetails user = userRepository.findByEmail(email);
+
+            UsernamePasswordAuthenticationToken authentication = new UsernamePasswordAuthenticationToken(user, null, user.getAuthorities());
             SecurityContextHolder.getContext().setAuthentication(authentication);
         }
         filterChain.doFilter(request, response);
