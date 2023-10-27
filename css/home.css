@@ -166,8 +166,7 @@ a {
     justify-content: center;
 }
 
-.painting {
-    background-color: #D9D9D9;
+.painting img {
     border-radius: 30px;
     width: 372px;
     height: 584px;
