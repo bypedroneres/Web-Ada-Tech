@@ -1,12 +1,19 @@
 package gallery.controller;
 
+import gallery.domain.dto.user.UserPostDTO;
+import gallery.domain.dto.user.UserPutDTO;
+import gallery.domain.dto.user.UserResponseDTO;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import gallery.domain.entities.User;
 import gallery.service.UserService;
+import org.springframework.web.util.UriComponentsBuilder;
 
-import java.util.List;
+import java.net.URI;
 
 @RestController
 @RequestMapping("/users")
@@ -18,39 +25,34 @@ public class UserController {
     this.userService = userService;
   }
 
-  @GetMapping("/listar")
-  public List<User> getUsers() {
-    return userService.buscarTodosOsUsuarios();
+  @GetMapping
+  public Page<UserResponseDTO> getUsers(Pageable pageable) {
+    return userService.buscarTodosOsUsuarios(pageable);
   }
 
-  // @GetMapping("/nome")
-  // public List<User> getUsersPorNome(@RequestParam String nome) {
-  //   return userService.buscarPorNome(nome);
-  // }
+  @GetMapping("/{id}")
+  public UserResponseDTO getUsers(@PathVariable String id) {
+    return userService.buscarUsuarioPorId(id);
+  }
 
-  @DeleteMapping("/{id}/excluir")
+  @DeleteMapping("/{id}")
+  @ResponseStatus(HttpStatus.NO_CONTENT)
   public void excluirUsuario(@PathVariable String id) {
     userService.deletarUsuario(id);
   }
 
-  @PostMapping("/criar")
-  public User criarUsuario(@RequestBody User usuario) {
-    return userService.criarNovoUsuario(usuario);
+  @PostMapping
+  @ResponseStatus(HttpStatus.CREATED)
+  public ResponseEntity<UserResponseDTO> criarUsuario(@RequestBody UserPostDTO userPostDTO, UriComponentsBuilder uriBuilder){
+    UserResponseDTO user = userService.criarNovoUsuario(userPostDTO);
+
+    URI uri = uriBuilder.path("/users/{id}").buildAndExpand(user.id()).toUri();
+
+    return ResponseEntity.created(uri).body(user);
   }
 
-  @PutMapping("/{id}/atualizar-nome")
-  public User atualizarNome(@PathVariable String id, @RequestBody User usuario) {
-    return userService.atualizarNome(id, usuario.getUsername());
+  @PutMapping("/{id}")
+  public UserResponseDTO atualizar(@PathVariable String id, @RequestBody UserPutDTO userPutDTO) {
+    return userService.atualizar(id, userPutDTO);
   }
-
-  @PutMapping("/{id}/atualizar-email")
-  public User atualizarEmail(@PathVariable String id, @RequestBody User usuario) {
-    return userService.atualizarEmail(id, usuario.getEmail());
-  }
-
-  @PutMapping("/{id}/atualizar-password")
-  public User atualizarPassword(@PathVariable String id, @RequestBody User usuario) {
-    return userService.atualizarPassword(id, usuario.getPassword());
-  }
-
 }
