@@ -24,7 +24,7 @@ public class AuthController {
     @Autowired
     private AuthenticationManager authenticationManager;
     @Autowired
-    private UserRepository repository;
+    private UserRepository userRepository;
     @Autowired
     private JwtTokenProvider jwtTokenProvider;
 
@@ -40,12 +40,12 @@ public class AuthController {
 
     @PostMapping("/signup")
     public ResponseEntity<User> signup(@RequestBody @Validated SignUpDTO data){
-        if(this.repository.findByEmail(data.email()) != null) return ResponseEntity.badRequest().build();
+        if(this.userRepository.findByEmail(data.email()) != null) return ResponseEntity.badRequest().build();
 
         String encryptedPassword = new BCryptPasswordEncoder().encode(data.password());
         User newUser = new User(data.username(), data.email(), encryptedPassword, data.role());
 
-        this.repository.save(newUser);
+        this.userRepository.save(newUser);
 
         return ResponseEntity.ok().build();
     }
