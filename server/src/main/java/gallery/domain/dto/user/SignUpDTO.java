@@ -1,4 +1,4 @@
-package gallery.domain.dto;
+package gallery.domain.dto.user;
 
 import gallery.domain.entities.UserRole;
 
