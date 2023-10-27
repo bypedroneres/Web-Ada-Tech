@@ -70,18 +70,18 @@ public class UserService {
       }
     }
 
-  public User buscarPorId(Long id) {
-    Optional<User> optCliente = userRepository.findById(id);
-    User cliente = optCliente.orElseThrow(() -> new RuntimeException("Não existe cliente com esse id"));
-    return new User(cliente);
-  }
+  // public User buscarPorId(Long id) {
+  //   Optional<User> optCliente = userRepository.findById(id);
+  //   User cliente = optCliente.orElseThrow(() -> new RuntimeException("Não existe cliente com esse id"));
+  //   return new User(cliente);
+  // }
 
-  public List<User> buscarPorNome(String nome) {
-    List<User> clientes = userRepository.findByNomeCompletoCustom(nome);
-    return clientes;
-  }
+  // public List<User> buscarPorNome(String nome) {
+  //   List<User> clientes = userRepository.findByNomeCompletoCustom(nome);
+  //   return clientes;
+  // }
 
-  public void deletarCliente(Long id) {
-    userRepository.deleteById(id);
-  }
+  // public void deletarCliente(Long id) {
+  //   userRepository.deleteById(id);
+  // }
 }

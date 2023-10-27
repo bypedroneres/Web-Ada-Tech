@@ -23,10 +23,10 @@ public class UserController {
     return userService.buscarTodosOsUsuarios();
   }
 
-  @GetMapping("/nome")
-  public List<User> getUsersPorNome(@RequestParam String nome) {
-    return userService.buscarPorNome(nome);
-  }
+  // @GetMapping("/nome")
+  // public List<User> getUsersPorNome(@RequestParam String nome) {
+  //   return userService.buscarPorNome(nome);
+  // }
 
   @DeleteMapping("/{id}/excluir")
   public void excluirUsuario(@PathVariable String id) {
