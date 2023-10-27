@@ -9,7 +9,7 @@ import gallery.service.UserService;
 import java.util.List;
 
 @RestController
-@RequestMapping("/users")
+@RequestMapping("/api/v1/users")
 public class UserController {
   private final UserService userService;
 

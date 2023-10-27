@@ -15,7 +15,7 @@ import org.springframework.web.util.UriComponentsBuilder;
 import java.net.URI;
 
 @RestController
-@RequestMapping("tickets")
+@RequestMapping("/api/v1/tickets")
 public class TicketController {
     @Autowired
     private TicketService service;

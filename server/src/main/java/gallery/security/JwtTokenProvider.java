@@ -21,7 +21,6 @@ public class JwtTokenProvider {
 
     public String generateToken(User user){
         try {
-            System.out.println("User: " + user);
             Algorithm algorithm = Algorithm.HMAC256(secret);
             String token = JWT.create()
                     .withIssuer("server")
