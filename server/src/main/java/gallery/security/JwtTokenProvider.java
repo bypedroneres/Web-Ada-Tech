@@ -19,12 +19,13 @@ public class JwtTokenProvider {
     @Value("${app.jwt-secret}")
     private String secret;
 
-    public String generateToken(User customer){
-        try{
+    public String generateToken(User user){
+        try {
+            System.out.println("User: " + user);
             Algorithm algorithm = Algorithm.HMAC256(secret);
             String token = JWT.create()
-                    .withIssuer("auth-api")
-                    .withSubject(customer.getEmail())
+                    .withIssuer("server")
+                    .withSubject(user.getEmail())
                     .withExpiresAt(genExpirationDate())
                     .sign(algorithm);
             return token;
@@ -37,7 +38,7 @@ public class JwtTokenProvider {
         try {
             Algorithm algorithm = Algorithm.HMAC256(secret);
             return JWT.require(algorithm)
-                    .withIssuer("auth-api")
+                    .withIssuer("server")
                     .build()
                     .verify(token)
                     .getSubject();
