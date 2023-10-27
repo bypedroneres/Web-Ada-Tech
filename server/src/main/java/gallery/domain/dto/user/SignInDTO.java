@@ -1,4 +1,6 @@
 package gallery.domain.dto.user;
 
-public record SignInDTO(String email, String password) {
+public record SignInDTO(
+        String email,
+        String password) {
 }

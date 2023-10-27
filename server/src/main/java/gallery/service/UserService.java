@@ -3,85 +3,59 @@ package gallery.service;
 import java.util.List;
 import java.util.Optional;
 
+import gallery.domain.dto.user.UserPostDTO;
+import gallery.domain.dto.user.UserPutDTO;
+import gallery.domain.dto.user.UserResponseDTO;
+import gallery.mapper.UserMapper;
+import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import gallery.domain.entities.User;
 import gallery.repositories.UserRepository;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 @Service
+@Transactional
 public class UserService {
-  @Autowired
+    @Autowired
     private final UserRepository userRepository;
+    @Autowired
+    private final UserMapper mapper;
 
-    public UserService(UserRepository userRepository) {
+    public UserService(UserRepository userRepository, UserMapper mapper) {
       this.userRepository = userRepository;
+      this.mapper = mapper;
     }
 
-    public List<User> buscarTodosOsUsuarios() {
-      return userRepository.findAll();
+    public Page<UserResponseDTO> buscarTodosOsUsuarios(Pageable pageable) {
+        return userRepository.findAll(pageable).map(mapper::toResponseDto);
     }
 
-    public User buscarUsuarioPorId(String id) {
-      Optional<User> optionalUser = userRepository.findById(id);
-      return optionalUser.orElse(null);
+    public UserResponseDTO buscarUsuarioPorId(String id) {
+        User user = userRepository.getReferenceById(id);
+
+        return mapper.toResponseDto(user);
     }
 
-    public User criarNovoUsuario(User usuario) {
-      return userRepository.save(usuario);
+    public UserResponseDTO criarNovoUsuario(UserPostDTO userPostDTO) {
+        User user = mapper.postDtoToEntity(userPostDTO);
+        userRepository.save(user);
+
+        return mapper.toResponseDto(userRepository.getReferenceById(user.getId()));
     }
 
     public void deletarUsuario(String id) {
       userRepository.deleteById(id);
     }
 
-    public User atualizarNome(String id, String novoNome) {
-      Optional<User> optionalUser = userRepository.findById(id);
+    public UserResponseDTO atualizar(String id, UserPutDTO userPutDTO){
+        User user = userRepository.getReferenceById(id);
+        User userAtualizado = mapper.putDtoToEntity(userPutDTO);
 
-      if (optionalUser.isPresent()) {
-        User user = optionalUser.get();
-        user.setUsername(novoNome);
-        return userRepository.save(user);
-      } else {
-        return null;
-      }
+        user.atualizar(userAtualizado);
+        userRepository.save(user);
+
+        return mapper.toResponseDto(userRepository.getReferenceById(user.getId()));
     }
-
-    public User atualizarEmail(String id, String novoEmail) {
-      Optional<User> optionalUser = userRepository.findById(id);
-
-      if (optionalUser.isPresent()) {
-        User user = optionalUser.get();
-        user.setEmail(novoEmail);
-        return userRepository.save(user);
-      } else {
-        return null;
-      }
-    }
-
-    public User atualizarPassword(String id, String novaPassword) {
-      Optional<User> optionalUser = userRepository.findById(id);
-
-      if (optionalUser.isPresent()) {
-        User user = optionalUser.get();
-        user.setPassword(novaPassword);
-        return userRepository.save(user);
-      } else {
-        return null;
-      }
-    }
-
-  // public User buscarPorId(Long id) {
-  //   Optional<User> optCliente = userRepository.findById(id);
-  //   User cliente = optCliente.orElseThrow(() -> new RuntimeException("Não existe cliente com esse id"));
-  //   return new User(cliente);
-  // }
-
-  // public List<User> buscarPorNome(String nome) {
-  //   List<User> clientes = userRepository.findByNomeCompletoCustom(nome);
-  //   return clientes;
-  // }
-
-  // public void deletarCliente(Long id) {
-  //   userRepository.deleteById(id);
-  // }
 }

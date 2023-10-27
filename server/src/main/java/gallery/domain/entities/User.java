@@ -3,19 +3,17 @@ package gallery.domain.entities;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.EqualsAndHashCode;
-import lombok.Getter;
+import lombok.Data;
 import lombok.NoArgsConstructor;
-
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
-
 import java.util.Collection;
 import java.util.List;
 
 @Table(name = "users")
-@Entity(name = "users")
-@Getter
+@Entity
+@Data
 @NoArgsConstructor
 @AllArgsConstructor
 @EqualsAndHashCode(of = "id")
@@ -58,21 +56,6 @@ public class User implements UserDetails {
           return List.of(new SimpleGrantedAuthority("ROLE_USER"));
     }
 
-    public String getUsername() {
-        return username;
-    }
-
-    public void setUsername(String username) {
-        this.username = username;
-    }
-
-    public void setEmail(String email) {
-        this.email = email;
-    }
-
-    public void setPassword(String password) {
-        this.password = password;
-    }
 
     @Override
     public boolean isAccountNonExpired() {
@@ -93,5 +76,12 @@ public class User implements UserDetails {
     public boolean isEnabled() {
       return true;
 
+    }
+
+    public void atualizar(User user) {
+        if (user.getUsername() != null) setUsername(user.getUsername());
+        if (user.getPassword() != null) setPassword(user.getPassword());
+        if (user.getEmail() != null) setEmail(user.getEmail());
+        if (user.getRole() != null) setRole(user.getRole());
     }
 }

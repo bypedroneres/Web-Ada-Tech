@@ -4,7 +4,6 @@ import gallery.domain.entities.Ticket;
 import gallery.domain.entities.User;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
-
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
@@ -19,6 +18,13 @@ public record TicketResponseDTO(
         @NotNull User client
 ) {
     public TicketResponseDTO(Ticket ticket){
-        this(ticket.getId(), ticket.getEvent(), ticket.getType(), ticket.getDate(), ticket.getTime(), ticket.getReservation(), ticket.getClient());
+        this(
+                ticket.getId(),
+                ticket.getEvent(),
+                ticket.getType(),
+                ticket.getDate(),
+                ticket.getTime(),
+                ticket.getReservation(),
+                ticket.getClient());
     }
 }
